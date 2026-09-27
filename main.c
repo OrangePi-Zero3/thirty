@@ -9,6 +9,8 @@
 
 #include <printf.h>
 
+#include <fel.h>
+
 void main(void)
 {
 	uart_init();
@@ -19,5 +21,7 @@ void main(void)
 	gpio_set_drive(SUNXI_GPC(13), SUNXI_DRIVE_L0);
 	gpio_set_pin_state(SUNXI_GPC(13), 1);
 
-	while (1);
+	// TODO: Return to FEL only if the device booted from FEL.
+	printf("Returning to FEL mode, SP: 0x%x, LR: 0x%x\n", fel_stash.sp, fel_stash.lr);
+	return_to_fel(fel_stash.sp, fel_stash.lr);
 }

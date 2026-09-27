@@ -4,6 +4,8 @@
  */
 .section .start, "ax"
 .global _start
+.global return_to_fel
+.global fel_stash
 _start:
 
 /*
@@ -62,3 +64,58 @@ reset:
 hang:
 	wfi
 	b	hang
+
+/*
+ * The FEL routines in BROM run in AArch32.
+ * Reset back into 32-bit mode here and restore the saved FEL state
+ * afterwards.
+ * Resetting back into AArch32/EL3 using the RMR always enters the BROM,
+ * but we can use the CPU hotplug mechanism to branch back to our code
+ * immediately.
+ */
+return_to_fel:
+	/*
+	 * the RMR reset will clear all registers, so save the arguments
+	 * (LR and SP) in the fel_stash structure, which we read anyways later
+	 */
+	adr	x2, fel_stash
+	str	w0, [x2]
+	str	w1, [x2, #4]
+
+	adr	x1, fel_stash_addr	// to find the fel_stash address in AA32
+	str	w2, [x1]
+
+	ldr	w0, =0xfa50392f		// CPU hotplug magic
+	ldr	w2, =(0x07000400 + 0x1c0)
+	str	w0, [x2], #0x4
+	adr	x0, back_in_32
+	str	w0, [x2]
+
+	dsb	sy
+	isb	sy
+	mov	x0, #2			// RMR reset into AArch32
+	dsb	sy
+	msr	RMR_EL3, x0
+	isb	sy
+1:	wfi
+	b	1b
+
+fel_stash_addr:			// must immediately precede back_in_32:
+	.word   0x00000000	// receives fel_stash addr, by AA64 code above
+
+/* AArch32 code to restore the state from fel_stash and return back to FEL. */
+back_in_32:
+	.word	0xe51f000c	// ldr	r0, [pc, #-12]  ; load fel_stash address
+	.word	0xe5901008	// ldr	r1, [r0, #8]
+	.word	0xe129f001	// msr	CPSR_fc, r1
+	.word	0xf57ff06f	// isb
+	.word	0xe590d000	// ldr	sp, [r0]
+	.word	0xe590e004	// ldr	lr, [r0, #4]
+	.word	0xe5901014	// ldr  r1, [r0, #20]
+	.word	0xe121f301	// msr  SP_irq, r1
+	.word	0xe5901010	// ldr	r1, [r0, #16]
+	.word	0xee0c1f10	// mcr	15, 0, r1, cr12, cr0, {0} ; VBAR
+	.word	0xe590100c	// ldr	r1, [r0, #12]
+	.word	0xee011f10	// mcr	15, 0, r1, cr1, cr0, {0}  ; SCTLR
+	.word	0xf57ff06f	// isb
+	.word	0xe12fff1e	// bx	lr		; return to FEL
