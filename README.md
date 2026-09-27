@@ -4,6 +4,7 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 
 ## What works
 
+- DRAM
 - UART
 - Green LED
 
@@ -13,5 +14,5 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 
 ## TBD
 
-- [ ] Train DRAM
-- [ ] Load something else after completion
+- [x] Train DRAM
+- [x] Load something else after completion ```Done on a technicality.```

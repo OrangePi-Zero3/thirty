@@ -1,0 +1,84 @@
+config SUNXI_DRAM_H616_LPDDR3
+    bool "Enable LPDDR3 support for H616"
+    default n
+    help
+       Select this option if your board uses LPDDR3.
+
+config SUNXI_DRAM_H616_DDR3_1333
+    bool "Enable DDR3 support for H616"
+    default n
+    help
+       Select this option if your board uses DDR3.
+
+config SUNXI_DRAM_H616_LPDDR4
+    bool "Enable LPDDR4 support for H616"
+    default n
+    help
+       Select this option if your board uses LPDDR4.
+
+config DRAM_CLK
+    int "DRAM clock frequency"
+    default 0
+    help
+       Set the DRAM clock frequency.
+
+config DRAM_SUNXI_DX_ODT
+    hex "DX ODT"
+    default 0x0
+    help
+       Set the DX ODT value.
+
+config DRAM_SUNXI_DX_DRI
+    hex "DX DRI"
+    default 0x0
+    help
+       Set the DX DRI value.
+
+config DRAM_SUNXI_CA_DRI
+    hex "CA DRI"
+    default 0x0
+    help
+       Set the CA DRI value.
+
+config DRAM_SUNXI_ODT_EN
+    hex "ODT EN"
+    default 0x0
+    help
+       Set the ODT EN value.
+
+config DRAM_SUNXI_TPR0
+    hex "TPR0"
+    default 0x0
+    help
+       Set the TPR0 value.
+
+config DRAM_SUNXI_TPR2
+    hex "TPR2"
+    default 0x0
+    help
+       Set the TPR2 value.
+
+config DRAM_SUNXI_TPR6
+    hex "TPR6"
+    default 0x0
+    help
+       Set the TPR6 value.
+
+config DRAM_SUNXI_TPR10
+    hex "TPR10"
+    default 0x0
+    help
+       Set the TPR10 value.
+
+config DRAM_SUNXI_TPR11
+    hex "TPR11"
+    default 0x0
+    help
+       Set the TPR11 value.
+
+config DRAM_SUNXI_TPR12
+    hex "TPR12"
+    default 0x0
+    help
+       Set the TPR12 value.
+

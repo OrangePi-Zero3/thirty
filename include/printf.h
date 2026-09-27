@@ -11,3 +11,5 @@ int printf(volatile const char *fmt, ...);
 #else
 #define printf(fmt, ...) do { } while (0)
 #endif
+
+#define panic(fmt, ...) do { printf(fmt, ##__VA_ARGS__); while(1); } while (0)

@@ -1,3 +1,4 @@
 mainmenu "thirty Configuration"
 
 source "debug/Kconfig"
+source "drivers/Kconfig"
