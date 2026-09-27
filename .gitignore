@@ -1,0 +1,9 @@
+*.o
+*.a
+*.cmd
+.config
+include/config
+include/generated
+scripts/basic/fixdep
+scripts/kconfig/conf
+spl*

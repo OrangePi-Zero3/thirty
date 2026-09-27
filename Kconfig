@@ -1,0 +1,3 @@
+mainmenu "thirty Configuration"
+
+source "debug/Kconfig"

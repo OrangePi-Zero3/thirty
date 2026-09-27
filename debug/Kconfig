@@ -1,0 +1,5 @@
+config CONSOLE_OUT
+    bool "Output messages to UART console"
+    default y
+    help
+      Select this option to enable printing to UART console.
