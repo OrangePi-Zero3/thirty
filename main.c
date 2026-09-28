@@ -11,6 +11,7 @@
 #include <drivers/timer.h>
 #include <drivers/dram.h>
 #include <drivers/i2c.h>
+#include <drivers/axp313a.h>
 
 #include <printf.h>
 
@@ -22,6 +23,7 @@ void main(void)
 	clock_init();
 	uart_init();
 	i2c_init();
+	pmic_init();
 
 	printf("Initialisation complete.\n");
 	
