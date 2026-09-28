@@ -4,6 +4,8 @@
  */
 
 #include <stdint.h>
+
+#include <drivers/clock.h>
 #include <drivers/gpio.h>
 #include <drivers/serial.h>
 #include <drivers/timer.h>
@@ -15,8 +17,11 @@
 
 void main(void)
 {
-	uart_init();
 	timer_init();
+	clock_init();
+	uart_init();
+
+	printf("Initialisation complete.\n");
 	
 	printf("thirty SPL - %s\n", BUILDID);
 	printf("Turn on LED!\n");

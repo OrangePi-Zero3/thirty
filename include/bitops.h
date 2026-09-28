@@ -5,4 +5,8 @@
 
 #pragma once
 
-#define BIT(n)			(1 << (n))
+#define BITS_PER_LONG 64
+
+#define BIT(n)			    (1 << (n))
+#define GENMASK(h, l) \
+	(((~0UL) << (l)) & (~0UL >> (BITS_PER_LONG - 1 - (h))))

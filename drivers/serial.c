@@ -17,8 +17,6 @@ void uart_init(void)
     gpio_configure_pin(SUNXI_GPH(1), MUX_2);
     gpio_set_pin_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
 
-    enable_clk(UART_BGR_REG);
-
     // 115200.
     writel(0x80, UART_LCR);
     writel(0, UART_DLH);
