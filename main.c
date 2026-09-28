@@ -12,6 +12,7 @@
 #include <drivers/dram.h>
 #include <drivers/i2c.h>
 #include <drivers/axp313a.h>
+#include <mmc.h>
 
 #include <printf.h>
 
@@ -24,6 +25,7 @@ void main(void)
 	uart_init();
 	i2c_init();
 	pmic_init();
+	mmc_init(0);
 
 	// Speed up CPU to 1.008GHz
 	printf("Speed up SoC...\n");
