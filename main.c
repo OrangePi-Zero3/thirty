@@ -10,6 +10,7 @@
 #include <drivers/serial.h>
 #include <drivers/timer.h>
 #include <drivers/dram.h>
+#include <drivers/i2c.h>
 
 #include <printf.h>
 
@@ -20,6 +21,7 @@ void main(void)
 	timer_init();
 	clock_init();
 	uart_init();
+	i2c_init();
 
 	printf("Initialisation complete.\n");
 	

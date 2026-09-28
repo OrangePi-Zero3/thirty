@@ -3,4 +3,5 @@ obj-y += clock.o
 obj-y += serial.o
 obj-y += timer.o
 obj-y += dram.o
+obj-y += i2c.o
 obj-$(CONFIG_SUNXI_DRAM_H616_LPDDR4) += lpddr4-2133.o
