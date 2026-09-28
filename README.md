@@ -4,6 +4,8 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 
 ## What works
 
+- I2C
+- AXP313A PMIC, though minimally
 - DRAM
 - UART
 - Green LED
