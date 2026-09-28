@@ -25,9 +25,13 @@ void main(void)
 	i2c_init();
 	pmic_init();
 
+	// Speed up CPU to 1.008GHz
+	printf("Speed up SoC...\n");
+	clock_set_pll1(1008000000);
+
 	printf("Initialisation complete.\n");
-	
-	printf("thirty SPL - %s\n", BUILDID);
+
+	printf("thirty SPL - %s\n", BUILDID);	
 	printf("Turn on LED!\n");
 	gpio_configure_pin(SUNXI_GPC(13), SUNXI_GPIO_OUTPUT);
 	gpio_set_drive(SUNXI_GPC(13), SUNXI_DRIVE_L0);

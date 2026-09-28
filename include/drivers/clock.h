@@ -257,4 +257,5 @@ struct ccu_reset {
     uint32_t bit;
 };
 
+void clock_set_pll1(unsigned int clk);
 void clock_init(void);

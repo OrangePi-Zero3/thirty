@@ -14,8 +14,6 @@
 
 #include <linux/kernel.h>
 
-#include <printf.h>
-
 static struct ccu_clk_gate h616_gates[] = {
 	[CLK_PLL_PERIPH0]	= GATE(0x020, BIT(31) | BIT(27)),
 
@@ -225,7 +223,7 @@ static void clock_h6_set_cpu_pll(unsigned int n_factor)
 	writel(val, ccm + CCU_H6_CPU_AXI_CFG);
 }
 
-static void clock_set_pll1(unsigned int clk)
+void clock_set_pll1(unsigned int clk)
 {
 	/* Do not support clocks < 288MHz as they need factor P */
 	if (clk < 288000000)
