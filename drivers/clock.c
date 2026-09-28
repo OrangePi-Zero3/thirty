@@ -279,8 +279,12 @@ static void clock_init_safe(void)
 	       ccm + CCU_H6_MBUS_CFG);
 }
 
-void clock_init(void)
-{
+void mmc_clk_init(int mmc_num) {
+    int offset = CCU_MMC0_CLK_CFG + (mmc_num * 4);
+    writel(CCM_MMC_CTRL_ENABLE | CCM_MMC_CTRL_OSCM24, CCU_BASE + offset);
+}
+
+void clock_init(void) {
     // Do safe init first.
     clock_init_safe();
 

@@ -2,6 +2,7 @@
 /*
  * Copyright (c) 2026, Umer Uddin <umer.uddin@mentallysanemainliners.org>
  */
+#include <stdint.h>
 
 #include <bitops.h>
 
@@ -29,6 +30,13 @@
 #define CCU_H6_MMC_GATE_RESET		0x84c
 #define CCU_H6_UART_GATE_RESET		0x90c
 #define CCU_H6_I2C_GATE_RESET		0x91c
+
+// Stuff for CCU_MMC0_CLK_CFG
+#define CCM_MMC_CTRL_M(x)      ((x) - 1)
+#define CCM_MMC_CTRL_N(x)      ((x) << 8)
+#define CCM_MMC_CTRL_OSCM24    (0x0 << 24)
+#define CCM_MMC_CTRL_PLL6      (0x1 << 24)
+#define CCM_MMC_CTRL_ENABLE    (0x1 << 31)
 
 #define PRCM_BASE                   0x07010000
 #define CCU_PRCM_PLL_LDO_CFG		0x244
@@ -257,5 +265,6 @@ struct ccu_reset {
     uint32_t bit;
 };
 
+void mmc_clk_init(int mmc_num);
 void clock_set_pll1(unsigned int clk);
 void clock_init(void);
