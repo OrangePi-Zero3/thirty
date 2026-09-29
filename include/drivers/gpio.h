@@ -26,8 +26,8 @@
 
 #define GPIO_CFG0_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE))
 #define GPIO_CFG1_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0x4))
-#define GPIO_CFG2_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0x4))
-#define GPIO_CFG3_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0x4))
+#define GPIO_CFG2_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0x8))
+#define GPIO_CFG3_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0xC))
 #define GPIO_CFG_BIT(pin)	    ((GPIO_NUM(pin) & 0x7) << 2)
 
 #define GPIO_MDR0_BASE(bank)	((H6_PIO_BASE + (bank) * H6_PIO_BANK_SIZE + 0x14))

@@ -256,7 +256,10 @@ void gpio_set_pin_state (int pin, int enable) {
     uint32_t address = GPIO_DAT_BASE(bank);
 
     configuration = readl(address);
-    configuration |= (enable << number);
+    if (enable)
+        configuration |= (1 << number);
+    else
+        configuration &= ~(1 << number);
 
     writel(configuration, address);
 }
