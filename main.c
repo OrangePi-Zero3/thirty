@@ -51,6 +51,9 @@ void main(void)
 		printf("Returning to FEL mode, SP: 0x%x, LR: 0x%x\n", fel_stash.sp, fel_stash.lr);
 		return_to_fel(fel_stash.sp, fel_stash.lr);
 	}
+	else if(sunxi_get_boot_source() == SUNXI_BOOTED_FROM_MMC0) {
+		printf("Booted from SD card\n");
+	}
 
 	while (1);
 }
