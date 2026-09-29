@@ -4,6 +4,7 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 
 ## What works
 
+- MMC0
 - I2C
 - AXP313A PMIC, though minimally
 - DRAM
@@ -18,3 +19,5 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 
 - [x] Train DRAM
 - [x] Load something else after completion ```Done on a technicality.```
+- [ ] Load something else from MMC
+- [ ] Cleanup
