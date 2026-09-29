@@ -15,6 +15,8 @@
 #include <drivers/usb_power.h>
 #include <drivers/mmc.h>
 
+#include <bootmode.h>
+
 #include <printf.h>
 
 #include <fel.h>
@@ -44,9 +46,11 @@ void main(void)
 	unsigned long dram_size = sunxi_dram_init();
 	printf("DRAM size: %lu bytes\n", dram_size);
 
-	// TODO: Return to FEL only if the device booted from FEL.
-	printf("Returning to FEL mode, SP: 0x%x, LR: 0x%x\n", fel_stash.sp, fel_stash.lr);
-	return_to_fel(fel_stash.sp, fel_stash.lr);
+	if (sunxi_get_boot_source() == SUNXI_INVALID_BOOT_SOURCE) {
+		printf("Booted from FEL\n");
+		printf("Returning to FEL mode, SP: 0x%x, LR: 0x%x\n", fel_stash.sp, fel_stash.lr);
+		return_to_fel(fel_stash.sp, fel_stash.lr);
+	}
 
 	while (1);
 }
