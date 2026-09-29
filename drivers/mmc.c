@@ -254,21 +254,6 @@ static int mmc_controller_init(void) {
         gpio_set_pin_pull(SUNXI_GPF(pin), SUNXI_GPIO_PULL_UP);
     }
 
-    // this shouldnt be needed tbh
-    uint32_t reg = readl(0x03001000 + 0x84C);
-    reg &= ~(1 << 16);
-    writel(reg, 0x03001000 + 0x84C);
-    udelay(10);
-    reg = readl(0x03001000 + 0x84C);
-    reg |= (1 << 0);
-    writel(reg, 0x03001000 + 0x84C);
-    udelay(10);
-    reg = readl(0x03001000 + 0x84C);
-    reg |= (1 << 16);
-    writel(reg, 0x03001000 + 0x84C);
-    udelay(10);
-
-
     writel(GCTRL_RESET, MMC0_BASE + MMC_GCTRL);
     udelay(1000);
     if ((readl(MMC0_BASE + MMC_GCTRL) & GCTRL_RESET) != 0) {
