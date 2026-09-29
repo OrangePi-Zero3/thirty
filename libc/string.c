@@ -6,7 +6,7 @@
 
 void* memcpy(void* destination, void* source, size_t num)
 {
-	int i;
+	size_t i;
 	char* d = destination;
 	char* s = source;
 	for (i = 0; i < num; i++) {

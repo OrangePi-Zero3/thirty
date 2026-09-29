@@ -17,6 +17,8 @@
 
 void mctl_set_timing_params(const struct dram_para *para)
 {
+	(void)para;
+
 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 

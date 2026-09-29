@@ -35,7 +35,7 @@ static int mmc_update_clock(void) {
     return -1;
 }
 
-static int mmc_set_clock(int mmc_num, unsigned int hz) {
+static int mmc_set_clock(unsigned int hz) {
     int n, clk_cr, div;
 
     div = 24000000 / hz;
@@ -267,7 +267,7 @@ static int mmc_controller_init(void) {
     writel(0xFFFFFFFF, MMC0_BASE + MMC_RINT);
     writel(0, MMC0_BASE + MMC_WIDTH);
 
-    return mmc_set_clock(0, 400000);
+    return mmc_set_clock(400000);
 }
 
 static int card_init(void) {
@@ -369,12 +369,13 @@ static int card_init(void) {
         return -1;
     }
 
-    if (mmc_set_clock(0, 24000000) != 0) {
+    if (mmc_set_clock(24000000) != 0) {
         printf("card_init: failed to set clock to 24MHz\n");
         return -1;
     }
 
     printf("card_init: Initialisation completed, detected %s card with %d blocks\n", hc_card ? "High Capacity" : "Standard Capacity", blocks);
+    return 0;
 }
 
 int mmc_read_blocks(uint64_t start_block, uint64_t block_count, void *buffer) {

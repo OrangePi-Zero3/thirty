@@ -16,6 +16,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <arm64.h>
@@ -24,6 +25,7 @@
 #include <bitops.h>
 
 #include <drivers/timer.h>
+#include <drivers/clock.h>
 #include <drivers/dram.h>
 
 #include <linux/kernel.h>
@@ -890,7 +892,7 @@ static bool mctl_phy_init(const struct dram_para *para,
 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 	uint32_t val, val2, *ptr, mr0, mr2;
-	int i;
+	size_t i;
 
 	if (para->type == SUNXI_DRAM_TYPE_LPDDR4)
 		clrbits_le32(SUNXI_DRAM_PHY0_BASE + 0x4,0x80);

@@ -4,6 +4,7 @@
  */
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include <drivers/clock.h>
 #include <drivers/timer.h>
@@ -289,9 +290,9 @@ void clock_init(void) {
     clock_init_safe();
 
     // Bulk enable all clocks and resets.
-    for (int i = 0; i < ARRAY_SIZE(h616_gates); i++)
+    for (size_t i = 0; i < ARRAY_SIZE(h616_gates); i++)
         set_gate(&h616_gates[i], 1);
 
-    for (int i = 0; i < ARRAY_SIZE(h616_resets); i++)
+    for (size_t i = 0; i < ARRAY_SIZE(h616_resets); i++)
         clock_set_reset(&h616_resets[i], 1);
 }

@@ -2,6 +2,7 @@
 /*
  * Copyright (c) 2026, Umer Uddin <umer.uddin@mentallysanemainliners.org>
  */
+#include <stddef.h>
 
 #include <bitops.h>
 #include <printf.h>
@@ -71,7 +72,7 @@ static uint8_t axp_mvolt_to_cfg(int mvolt, const struct axp_reg_desc_spl *reg)
 	return reg->split + mvolt / (reg->step_mV * 2);
 }
 
-static int axp_set_dcdc(int dcdc_num, unsigned int mvolt)
+static int axp_set_dcdc(size_t dcdc_num, unsigned int mvolt)
 {
 	const struct axp_reg_desc_spl *reg;
 	int ret;

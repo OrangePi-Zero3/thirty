@@ -36,7 +36,7 @@ static void load_images_mmc(void) {
         while (1);
     }
 
-	for (int i = 0; i < image_header.cnt; i++) {
+	for (uint32_t i = 0; i < image_header.cnt; i++) {
 		image_entry_t *entry = &image_header.entries[i];
 		printf("Entry %d: name=%s, load_addr=0x%llx, size=%llu, offset_blocks=%llu\n",
 			i, entry->name, entry->load_addr, entry->size, entry->offset_blocks);
