@@ -13,7 +13,7 @@
 #include <drivers/i2c.h>
 #include <drivers/axp313a.h>
 #include <drivers/usb_power.h>
-#include <mmc.h>
+#include <drivers/mmc.h>
 
 #include <printf.h>
 
