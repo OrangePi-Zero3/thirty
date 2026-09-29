@@ -118,4 +118,5 @@
 #define ACMD_SET_BUS_WIDTH            6
 #define ACMD_SD_SEND_OP_COND          41
 
+int mmc_read_blocks(uint64_t start_block, uint64_t block_count, void *buffer);
 void mmc_init(int mmc_num);

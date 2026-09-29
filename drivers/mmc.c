@@ -392,6 +392,23 @@ static int card_init(void) {
     printf("card_init: Initialisation completed, detected %s card with %d blocks\n", hc_card ? "High Capacity" : "Standard Capacity", blocks);
 }
 
+int mmc_read_blocks(uint64_t start_block, uint64_t block_count, void *buffer) {
+    uint32_t cmd = block_count > 1 ? CMD_READ_MULTIPLE_BLOCK : CMD_READ_SINGLE_BLOCK;
+    uint32_t addr = hc_card ? start_block : start_block * MMC_BLOCK_SIZE;
+
+    if (start_block + block_count > blocks) {
+        printf("mmc_read_blocks: out of bounds\n");
+        return -1;
+    }
+
+    if (mmc_send_command(cmd, addr, RESP_R1, buffer, block_count, false, nullptr) != 0) {
+        printf("mmc_read_blocks: failed to read blocks\n");
+        return -1;
+    }
+
+    return 0;
+}
+
 void mmc_init(int mmc_num) {
     mmc_clk_init(mmc_num);
     mmc_controller_init();
