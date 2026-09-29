@@ -18,6 +18,6 @@ Name comes from Zero3 = 03, when flipped its 30 = thirty, proper creative.
 ## TBD
 
 - [x] Train DRAM
-- [x] Load something else after completion ```Done on a technicality.```
-- [ ] Load something else from MMC
-- [ ] Cleanup
+- [x] Load something else after completion
+- [x] Load something else from MMC
+- [x] Cleanup
