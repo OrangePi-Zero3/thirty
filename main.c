@@ -11,9 +11,11 @@
 #include <drivers/timer.h>
 #include <drivers/dram.h>
 #include <drivers/i2c.h>
+#include <drivers/spi.h>
 #include <drivers/axp313a.h>
 #include <drivers/usb_power.h>
 #include <drivers/mmc.h>
+#include <drivers/nor_flash.h>
 
 #include <boot.h>
 #include <bootmode.h>
@@ -26,8 +28,10 @@ void main(void)
 	clock_init();
 	uart_init();
 	i2c_init();
+	spi_init();
 	pmic_init();
 	usb_power_init();
+	spi_nor_init();
 	mmc_init(0);
 
 	// Speed up CPU to 1.008GHz

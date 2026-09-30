@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include <drivers/mmc.h>
+#include <drivers/nor_flash.h>
 
 #include <linux/kernel.h>
 
@@ -15,12 +16,16 @@
 #include <image_format.h>
 #include <fel.h>
 
+struct boot_file_head *egon_head = (void *)0x00020000;
 image_header_t image_header = {};
 uint64_t boot_addr = 0;
 
 static void load_images_mmc(void) {
+    uint64_t start_block = 16 + (egon_head->length / 512);
+
     printf("Loading image header\n");
-    if (mmc_read_blocks(80, 1, &image_header) != 0) {
+
+    if (mmc_read_blocks(start_block, 1, &image_header) != 0) {
         printf("Failed to read image header\n");
         while (1);
     }
@@ -45,7 +50,7 @@ static void load_images_mmc(void) {
 		if (i == 0)
 			boot_addr = entry->load_addr;
 
-		if(mmc_read_blocks(80 + entry->offset_blocks, DIV_ROUND_UP(entry->size, 512), (void *)entry->load_addr) != 0) {
+		if(mmc_read_blocks(start_block + entry->offset_blocks, DIV_ROUND_UP(entry->size, 512), (void *)entry->load_addr) != 0) {
 			printf("Failed to read image block\n");
 			while (1);
 		}
@@ -56,10 +61,49 @@ static void load_images_mmc(void) {
 	((void (*)(void))boot_addr)();
 }
 
-void load_and_boot_images(uint64_t dram_size, int boot_source) {
-    struct boot_file_head *egon_head = (void *)0x00020000;
+static void load_images_nor_flash(void) {
+    uint64_t start_block = (egon_head->length / 512);
 
+    printf("Loading image header from NOR flash\n");
+    if (spi_nor_read_blocks(start_block, 1, &image_header) != 0) {
+        printf("Failed to read image header from NOR flash\n");
+        while (1);
+    }
+
+    printf("Image header: magic=%08x\n", image_header.magic);
+    if (image_header.magic != IMG_MAGIC) {
+        printf("Invalid image magic\n");
+        while (1);
+    }
+
+    if (image_header.cnt > IMG_MAX_ENTRIES) {
+        printf("Too many image entries: %u\n", image_header.cnt);
+        while (1);
+    }
+
+    for (uint32_t i = 0; i < image_header.cnt; i++) {
+        image_entry_t *entry = &image_header.entries[i];
+        printf("Entry %d: name=%s, load_addr=0x%llx, size=%llu, offset_blocks=%llu\n",
+            i, entry->name, entry->load_addr, entry->size, entry->offset_blocks);
+
+        // First image always takes priority.
+        if (i == 0)
+            boot_addr = entry->load_addr;
+
+        if(spi_nor_read_blocks(start_block + entry->offset_blocks, DIV_ROUND_UP(entry->size, 512), (void *)entry->load_addr) != 0) {
+            printf("Failed to read image block from NOR flash\n");
+            while (1);
+        }
+        printf("Loaded image %s to 0x%llx\n", entry->name, entry->load_addr);
+    }
+
+    printf("Jumping to image at 0x%llx\n", boot_addr);
+    ((void (*)(void))boot_addr)();
+}
+
+void load_and_boot_images(uint64_t dram_size, int boot_source) {
     printf("Updating SPL header...\n");
+
     egon_head->spl_signature[3] = SPL_DRAM_HEADER_VERSION;
     egon_head->dram_size = dram_size >> 20;
 
@@ -73,6 +117,11 @@ void load_and_boot_images(uint64_t dram_size, int boot_source) {
             printf("Booted from FEL\n");
             printf("Returning to FEL mode, SP: 0x%x, LR: 0x%x\n", fel_stash.sp, fel_stash.lr);
             return_to_fel(fel_stash.sp, fel_stash.lr);
+            break;
+        case SUNXI_BOOTED_FROM_SPI:
+            printf("Booted from SPI NOR flash\n");
+            printf("Loading image from SPI NOR flash...\n");
+            load_images_nor_flash();
             break;
         default:
             printf("Unsupported boot source: %d\n", boot_source);
