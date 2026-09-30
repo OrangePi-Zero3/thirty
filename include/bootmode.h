@@ -17,6 +17,18 @@
 
 #define BOOT0_MAGIC		"eGON.BT0"
 
+#define SPL_MAJOR_BITS		3
+#define SPL_MINOR_BITS		5
+#define SPL_VERSION(maj, min)						\
+	((((maj) & ((1U << SPL_MAJOR_BITS) - 1)) << SPL_MINOR_BITS) | \
+	((min) & ((1U << SPL_MINOR_BITS) - 1)))
+
+#define SPL_HEADER_VERSION	SPL_VERSION(0, 2)
+
+#define SPL_ENV_HEADER_VERSION	SPL_VERSION(0, 1)
+#define SPL_DT_HEADER_VERSION	SPL_VERSION(0, 2)
+#define SPL_DRAM_HEADER_VERSION	SPL_VERSION(0, 3)
+
 struct boot_file_head {
 	uint32_t b_instruction;	/* one intruction jumping to real code */
 	uint8_t magic[8];	/* ="eGON.BT0" or "eGON.BT1", not C-style str */

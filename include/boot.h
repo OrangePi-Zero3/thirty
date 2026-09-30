@@ -5,4 +5,4 @@
 
 #pragma once
 
-void load_and_boot_images(int boot_source);
+void load_and_boot_images(unsigned long dram_size, int boot_source);

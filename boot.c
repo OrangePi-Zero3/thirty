@@ -56,7 +56,13 @@ static void load_images_mmc(void) {
 	((void (*)(void))boot_addr)();
 }
 
-void load_and_boot_images(int boot_source) {
+void load_and_boot_images(uint64_t dram_size, int boot_source) {
+    struct boot_file_head *egon_head = (void *)0x00020000;
+
+    printf("Updating SPL header...\n");
+    egon_head->spl_signature[3] = SPL_DRAM_HEADER_VERSION;
+    egon_head->dram_size = dram_size >> 20;
+
     switch (boot_source) {
         case SUNXI_BOOTED_FROM_MMC0:
             printf("Booted from SD card\n");
