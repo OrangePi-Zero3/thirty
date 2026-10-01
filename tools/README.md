@@ -1,1 +1,2 @@
-compiled from upstream uboot, commit a06e89ab05eaa2b8344d521319399333cd760ae5
+mksunxiboot compiled from upstream uboot, commit a06e89ab05eaa2b8344d521319399333cd760ae5
+mkbootableimage from here

@@ -25,7 +25,7 @@ export CC AS
 export KBUILD_CFLAGS := $(CFLAGS)
 export KBUILD_AFLAGS := $(ASFLAGS)
 
-all: spl.bin
+all: spl-bootable.img
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -41,6 +41,9 @@ spl-raw.bin: spl-raw.elf
 
 spl.bin: spl-raw.bin
 	$(MKSUNXIBOOT) $< $@
+
+spl-bootable.img: spl.bin tools/mkbootableimage.py
+	python3 tools/mkbootableimage.py
 
 PHONY += built-in.a
 built-in.a: $(build-dir)
