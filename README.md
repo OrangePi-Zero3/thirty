@@ -34,7 +34,7 @@ You can't use the spl-bootable.img in USB boot cases, you will need to use sunxi
 On linux, use DD
 
 ```
-dd if=spl-bootable.img of=/dev/SDCARDHERE bs=8k seek=1 && sync
+dd if=spl-bootable.img of=/dev/SDCARDHERE bs=1k seek=128 && sync
 ```
 
 Then insert the SD card into the OrangePi and boot.
