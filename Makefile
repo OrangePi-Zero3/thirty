@@ -52,7 +52,7 @@ PHONY += $(build-dir)
 $(build-dir):
 	$(Q)$(MAKE) $(build)=$@ need-builtin=1 need-modorder=1 $(single-goals)
 
-CLEAN_FILES += spl.bin spl-raw.bin spl-raw.elf
+CLEAN_FILES += spl-bootable.img spl.bin spl-raw.bin spl-raw.elf
 
 MRPROPER_FILES += include/config include/generated \
 		  .config .config.old
