@@ -20,7 +20,8 @@ image_header_t image_header = {};
 uint64_t boot_addr = 0;
 
 static void load_images_mmc(void) {
-    uint64_t start_block = 16 + (egon_head->length / 512);
+    uint64_t start_block = (egon_head->boot_media == SUNXI_BOOTED_FROM_MMC0_HIGH) ? 512 : 16;
+    start_block += (egon_head->length / 512);
 
     printf("Loading image header\n");
 
@@ -108,6 +109,7 @@ void load_and_boot_images(uint64_t dram_size, int boot_source) {
 
     switch (boot_source) {
         case SUNXI_BOOTED_FROM_MMC0:
+        case SUNXI_BOOTED_FROM_MMC0_HIGH:
             printf("Booted from SD card\n");
             printf("Loading image from SD card...\n");
             load_images_mmc();
