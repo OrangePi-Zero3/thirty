@@ -34,7 +34,7 @@ start.o: arch/arm64/start.S
 	$(CC) $(ASFLAGS) -c -o $@ $<
 
 spl-raw.elf: start.o main.o arch/arm64/linker.lds built-in.a
-	$(CC) $(CFLAGS) $(LDFLAGS) -T arch/arm64/linker.lds -o $@ start.o main.o built-in.a
+	$(CC) $(CFLAGS) $(LDFLAGS) -T arch/arm64/linker.lds -o $@ start.o main.o -Wl,--whole-archive built-in.a -Wl,--no-whole-archive
 
 spl-raw.bin: spl-raw.elf
 	$(OBJCOPY) -O binary $< $@
