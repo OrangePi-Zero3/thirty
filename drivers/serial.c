@@ -35,6 +35,14 @@ void uart_putc(char c)
     writel((uint32_t)(uint8_t)c, UART_THR);
 }
 
+void uart_getc(char *c)
+{
+    if(!(readl(UART_LSR) & UART_LSR_DR))
+        return;
+
+    *c = (char)(readl(UART_RBR) & 0xFF);
+}
+
 void uart_puts(char *s)
 {
     while (*s)
