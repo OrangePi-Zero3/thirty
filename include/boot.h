@@ -5,4 +5,5 @@
 
 #pragma once
 
+void wait_enter_fel(int boot_source);
 void load_and_boot_images(unsigned long dram_size, int boot_source);

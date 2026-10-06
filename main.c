@@ -49,6 +49,8 @@ void main(void)
 	unsigned long dram_size = sunxi_dram_init();
 	printf("DRAM size: %lu bytes\n", dram_size);
 
+	wait_enter_fel(sunxi_get_boot_source());
+
 	load_and_boot_images(dram_size, sunxi_get_boot_source());
 
 	while (1);

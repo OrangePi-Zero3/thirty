@@ -5,8 +5,11 @@
 
 #include <stdint.h>
 
+
 #include <drivers/mmc.h>
 #include <drivers/nor_flash.h>
+#include <drivers/serial.h>
+#include <drivers/timer.h>
 
 #include <linux/kernel.h>
 
@@ -99,6 +102,25 @@ static void load_images_nor_flash(void) {
 
     printf("Jumping to image at 0x%llx\n", boot_addr);
     ((void (*)(void))boot_addr)();
+}
+
+void wait_enter_fel(int boot_source) {
+    char c = '\x00';
+
+    if(boot_source == SUNXI_INVALID_BOOT_SOURCE)
+        return;
+
+    printf("Press F to enter FEL mode within 0.5 seconds...\n");
+
+    // Wait 0.5s for F, enter fel if done.
+    for (int i = 0; i < (0.5 * 1000 * 1000); i++) {
+        uart_getc(&c);
+        if (c == 'F' || c == 'f') {
+            printf("Entering FEL mode... (SP: 0x%x, LR: 0x%x)\n", fel_stash.sp, fel_stash.lr);
+            return_to_fel(fel_stash.sp, fel_stash.lr);
+        }
+        udelay(1);
+    }
 }
 
 void load_and_boot_images(uint64_t dram_size, int boot_source) {
